@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bank System</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #4facfe, #00f2fe);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            text-align: center;
+            width: 350px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .balance {
+            font-size: 24px;
+            margin: 20px 0;
+            color: green;
+            font-weight: bold;
+        }
+
+        input {
+            width: 90%;
+            padding: 12px;
+            font-size: 18px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            outline: none;
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 5px;
+            transition: 0.3s;
+        }
+
+        .withdraw {
+            background: red;
+            color: white;
+        }
+
+        .deposit {
+            background: green;
+            color: white;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+        }
+
+        .message {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Bank System</h1>
+
+        <div class="balance">
+            Current Balance: Rs <span id="balance">10000</span>
+        </div>
+
+        <input type="number" id="amount" placeholder="Enter Amount">
+
+        <br>
+
+        <button class="withdraw" onclick="withdrawMoney()">
+            Withdraw
+        </button>
+
+        <button class="deposit" onclick="depositMoney()">
+            Deposit
+        </button>
+
+        <div class="message" id="message"></div>
+    </div>
+
+    <script>
+        let balance = 10000;
+        const correctPin = "1234";
+
+        function updateBalance() {
+            document.getElementById("balance").innerHTML = balance;
+        }
+
+        function validateAmount(amount) {
+            if (amount <= 0) {
+                document.getElementById("message").innerHTML =
+                "Enter a valid amount!";
+                return false;
+            }
+
+            if (amount % 100 !== 0) {
+                document.getElementById("message").innerHTML =
+                "Amount must be multiple of 100!";
+                return false;
+            }
+
+            return true;
+        }
+
+        function withdrawMoney() {
+            let amount =
+            parseInt(document.getElementById("amount").value);
+
+            if (!validateAmount(amount)) return;
+
+            let pin = prompt("Enter PIN:");
+
+            if (pin === correctPin) {
+
+                if (amount > balance) {
+                    document.getElementById("message").innerHTML =
+                    "Insufficient Balance!";
+                    return;
+                }
+
+                balance -= amount;
+                updateBalance();
+
+                document.getElementById("message").innerHTML =
+                "Withdraw Successful!";
+            } else {
+                document.getElementById("message").innerHTML =
+                "Wrong PIN!";
+            }
+        }
+
+        function depositMoney() {
+            let amount =
+            parseInt(document.getElementById("amount").value);
+
+            if (!validateAmount(amount)) return;
+
+            let pin = prompt("Enter PIN:");
+
+            if (pin === correctPin) {
+
+                balance += amount;
+                updateBalance();
+
+                document.getElementById("message").innerHTML =
+                "Deposit Successful!";
+            } else {
+                document.getElementById("message").innerHTML =
+                "Wrong PIN!";
+            }
+        }
+    </script>
+
+</body>
+</html>
